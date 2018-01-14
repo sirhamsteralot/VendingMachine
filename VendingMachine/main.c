@@ -7,11 +7,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <conio.h>
+
+FILE *f;
+int Coffee_Stock;
+int Mokka_Stock;
+int Choco_Stock;
+int Dishwater_Stock;
+
+int Change_Stock;
+
 // your events
-typedef enum { E_10C, E_20C, E_50C, E_100C, E_Not_Enough_Money, E_Enough_Money, E_Start, E_Continue, E_Coffe, E_Mokka, E_Choco, E_DishwasherWater}
+typedef enum { E_10C, E_20C, E_50C, E_100C, E_Not_Enough_Money, E_Enough_Money, E_Start, E_Continue, E_Coffe, E_Mokka, E_Choco, E_DishwasherWater, E_OutOfStock, E_AdminMode, E_Restock, E_EmptyChange, E_ExitAdmin}
 event_t;
 //your states
-typedef enum { S_Idle, S_Initialisation, S_Wait_For_Selection, S_Wait_For_Money, S_Amount_Check }
+typedef enum { S_Idle, S_Initialisation, S_Wait_For_Selection, S_Wait_For_Money, S_Amount_Check, S_Admin_Mode, S_Wait_For_Admin_Selection
+}
 state_t;
 
 state_t event_handler(event_t event);
@@ -23,7 +33,10 @@ void add_50(int *money);
 void add_100(int *money);
 event_t check_amount(const int money);
 event_t coin_insertion();
-event_t coffee_selection();
+event_t Selection();
+
+void WriteToFile();
+void ReadFromFIle();
 
 
 int Price = 125;
@@ -72,6 +85,8 @@ state_t event_handler(event_t event) {
 			}
 			break;
 		case S_Wait_For_Selection:
+			next_state = S_Wait_For_Money;
+
 			switch (event) {
 			case E_Coffe:
 				strcpy(drinkName, "Coffee");
@@ -89,8 +104,14 @@ state_t event_handler(event_t event) {
 				strcpy(drinkName, "DishwasherWater");
 				Price = Dishwater_Price;
 				break;
+			case E_AdminMode:
+				next_state = S_Admin_Mode;
+				break;
+			case E_OutOfStock:
+				printf("\nThis item is out of stock,please make a different selection\n");
+				next_state = S_Wait_For_Selection;
+				break;
 			}
-			next_state = S_Wait_For_Money;
 			break;
 		case S_Wait_For_Money:
 			switch (event) {
@@ -140,6 +161,31 @@ state_t event_handler(event_t event) {
 				break;
 			}
 			break;
+
+		case S_Admin_Mode:
+			system("@cls||clear");
+			puts("Welcome to the admin mode");
+			next_state = S_Wait_For_Admin_Selection;
+			switch (event) {
+			case E_Restock:
+				Coffee_Stock = 10;
+				Mokka_Stock = 10;
+				Choco_Stock = 10;
+				Dishwater_Stock = 10;
+				WriteToFile();
+				puts("Restocked!");
+				break;
+			case E_EmptyChange:
+				Change_Stock = 0;
+				WriteToFile();
+				puts("Emptied change!");
+				break;
+			case E_ExitAdmin:
+				system("@cls||clear");
+				next_state = S_Initialisation;
+				break;
+			}
+			break;
 		}
 		// *********** Destination States *************
 		switch (next_state) {
@@ -150,14 +196,20 @@ state_t event_handler(event_t event) {
 			event = E_Continue;
 			break;
 		case S_Wait_For_Selection:
-			event = coffee_selection();
+			event = Selection();
 			// Event Generation/Preparation
 			event = event;
 			break;
 
+		case S_Wait_For_Admin_Selection:
+			event = AdminModeSelect();
+			event = event;
+			next_state = S_Admin_Mode;
+			break;
+
 		case S_Wait_For_Money:
 			// Moore Action
-			printf("\nI have the %s if you have the coin.\n", drinkName);
+			printf("\nI have the %s if you have the coin. (%d cent)\n", drinkName, Price);
 			event = coin_insertion();
 			// Event Generation/Preparation
 			event = event;
@@ -177,12 +229,29 @@ state_t event_handler(event_t event) {
 
 void initialize(int *money) {
 	*money = 0;
+	ReadFromFIle();
 }
 
 void dispense_coffee(const int money) {
 	printf("\n Enough Money!(%d) Thanks \n", money);
 	printf("\n Your Change:%d", money - Price);
 	printf("\n Take your %s!\n\n\n", drinkName);
+
+	Change_Stock -= money - Price;
+
+	if (!strcmp( drinkName, "Coffee")) {
+		Coffee_Stock--;
+	}
+	else if (!strcmp(drinkName, "Mokka")) {
+		Mokka_Stock--;
+	}
+	else if (!strcmp(drinkName, "Choco")) {
+		Choco_Stock--;
+	}
+	else if (!strcmp(drinkName, "DishwasherWater")) {
+		Dishwater_Stock--;
+	}
+	WriteToFile();
 	
 	printf("Press any button to continue");
 	scanf("%c");
@@ -191,18 +260,26 @@ void dispense_coffee(const int money) {
 
 void add_10(int *money) {
 	*money += 10;
+	Change_Stock += 10;
+	WriteToFile();
 }
 
 void add_20(int *money) {
 	*money += 20;
+	Change_Stock += 20;
+	WriteToFile();
 }
 
 void add_50(int *money) {
 	*money += 50;
+	Change_Stock += 50;
+	WriteToFile();
 }
 
 void add_100(int *money) {
 	*money += 100;
+	Change_Stock += 100;
+	WriteToFile();
 }
 
 event_t check_amount(const int money) {
@@ -243,7 +320,7 @@ event_t coin_insertion() {
 	}
 }
 
-event_t coffee_selection() {
+event_t Selection() {
 	int sel;
 	while (1)
 	{
@@ -259,20 +336,71 @@ event_t coffee_selection() {
 		switch (sel)
 		{
 		case 1:
-			return E_Coffe;
+			if (Coffee_Stock > 0)
+				return E_Coffe;
+			else
+				return E_OutOfStock;
 			break;
 		case 2:
-			return E_Mokka;
+			if (Mokka_Stock > 0)
+				return E_Mokka;
+			else
+				return E_OutOfStock;
 			break;
 		case 3:
-			return E_Choco;
+			if (Choco_Stock > 0)
+				return E_Choco;
+			else
+				return E_OutOfStock;
 			break;
 		case 4:
-			return E_DishwasherWater;
+			if (Dishwater_Stock > 0)
+				return E_DishwasherWater;
+			else
+				return E_OutOfStock;
+			break;
+
+		case 1234:
+			return E_AdminMode;
 			break;
 		default:
 			puts("Wrong Selection");
 		}
 
 	}
+}
+
+event_t AdminModeSelect() {
+	int sel;
+
+	puts("\nSelect your option:");
+	puts("1-- Refill all");
+	puts("2-- Empty change");
+	puts("3-- Exit");
+
+	scanf("%d", &sel);
+	getchar();
+	switch (sel) {
+	case 1:
+		return E_Restock;
+		break;
+	case 2:
+		return E_EmptyChange;
+		break;
+	case 3:
+		return E_ExitAdmin;
+		break;
+	}
+}
+
+void WriteToFile() {
+	// INITIALIZE
+	f = fopen("Stock.stock", "w+");
+	fprintf(f, "%d\n%d\n%d\n%d\n%d", Coffee_Stock, Mokka_Stock, Choco_Stock, Dishwater_Stock, Change_Stock);
+	fclose(f);
+}
+
+void ReadFromFIle() {
+	f = fopen("Stock.stock", "r");
+	fscanf(f, "%d\n%d\n%d\n%d\n%d", &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock, &Change_Stock);
 }
