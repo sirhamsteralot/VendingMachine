@@ -1,4 +1,5 @@
 @startuml
+
 [*] --> S_Idle
 S_Idle --> S_Initialisation : E_Start
 S_Initialisation: initialize(&money)
@@ -27,7 +28,5 @@ S_Admin_Mode --> S_Admin_Mode: E_AddChange100/Change_Stock += 100
 S_Admin_Mode --> S_Admin_Mode: E_EmptyChange/Change_Stock = 0
 S_Admin_Mode --> S_Initialisation: E_ExitAdmin
 S_Admin_Mode --> [*]: E_Shutdown/WriteToFile()/exit(0)
-
-
 
 @enduml
