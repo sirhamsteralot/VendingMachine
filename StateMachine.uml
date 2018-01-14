@@ -1,0 +1,33 @@
+@startuml
+[*] --> S_Idle
+S_Idle --> S_Initialisation : E_Start
+S_Initialisation: initialize(&money)
+S_Initialisation --> S_Wait_For_Selection : E_Continue
+
+S_Wait_For_Selection: Selection()
+S_Wait_For_Selection --> S_Wait_For_Money : E_Coffee/Price = Coffee_Price
+S_Wait_For_Selection --> S_Wait_For_Money : E_Mokka/Price = Mokka_Price
+S_Wait_For_Selection --> S_Wait_For_Money : E_Choco/Price = Choco_Price
+S_Wait_For_Selection --> S_Wait_For_Money : E_DishwasherWater/Price = Dishwater_Price
+S_Wait_For_Selection --> S_Admin_Mode : E_Admin_Mode
+S_Wait_For_Selection --> S_Wait_For_Selection : E_OutOfStock
+
+S_Wait_For_Money: coin_insertion()
+S_Wait_For_Money --> S_Amount_Check: E_10C/add_10(&money)
+S_Wait_For_Money --> S_Amount_Check: E_20C/add_20(&money)
+S_Wait_For_Money --> S_Amount_Check: E_50C/add_50(&money)
+S_Wait_For_Money --> S_Amount_Check: E_100C/add_100(&money)
+S_Amount_Check: check_amount(money)
+S_Amount_Check --> S_Wait_For_Money : E_Not_Enough_Money
+S_Amount_Check --> S_Initialisation : E_Enough_Money/dispense_coffee(money)
+
+S_Admin_Mode: AdminModeSelect()
+S_Admin_Mode --> S_Admin_Mode: E_Restock/Restock()
+S_Admin_Mode --> S_Admin_Mode: E_AddChange100/Change_Stock += 100
+S_Admin_Mode --> S_Admin_Mode: E_EmptyChange/Change_Stock = 0
+S_Admin_Mode --> S_Initialisation: E_ExitAdmin
+S_Admin_Mode --> [*]: E_Shutdown/WriteToFile()/exit(0)
+
+
+
+@enduml

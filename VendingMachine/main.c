@@ -17,8 +17,11 @@ int Dishwater_Stock;
 int Change_Stock;
 
 /*==================| events |==================*/
-typedef enum {	E_10C, E_20C, E_50C, E_100C, E_Not_Enough_Money, E_Enough_Money, E_Start, E_Continue, E_Coffe, E_Mokka, 
-				E_Choco, E_DishwasherWater, E_OutOfStock, E_AdminMode, E_Restock, E_EmptyChange, E_AddChange100, E_ExitAdmin}
+typedef enum{	
+				E_10C, E_20C, E_50C, E_100C, E_Not_Enough_Money, E_Enough_Money, E_Start, E_Continue, E_Coffee, E_Mokka, 
+				E_Choco, E_DishwasherWater, E_OutOfStock, E_AdminMode, E_Restock, E_EmptyChange, E_AddChange100, E_ExitAdmin,
+				E_Shutdown
+			}
 event_t;
 /*==================| states |==================*/
 typedef enum { S_Idle, S_Initialisation, S_Wait_For_Selection, S_Wait_For_Money, S_Amount_Check, S_Admin_Mode, S_Wait_For_Admin_Selection
@@ -35,10 +38,12 @@ void add_100(int *money);
 event_t check_amount(const int money);
 event_t coin_insertion();
 event_t Selection();
+event_t AdminModeSelect();
 
 void WriteToFile();
 void ReadFromFIle();
 
+void Restock();
 
 int Price = 125;
 char drinkName[255];
@@ -87,7 +92,7 @@ state_t event_handler(event_t event) {
 			next_state = S_Wait_For_Money;
 
 			switch (event) {
-			case E_Coffe:
+			case E_Coffee:
 				strcpy(drinkName, "Coffee");
 				Price = Coffee_Price;
 				break;
@@ -162,18 +167,12 @@ state_t event_handler(event_t event) {
 			break;
 
 		case S_Admin_Mode:
-			system("@cls||clear");
-			puts("Welcome to the admin mode");
 			// Default Destination State
-			next_state = S_Wait_For_Admin_Selection;
+			next_state = S_Admin_Mode;
 			switch (event) {
 			case E_Restock:
 				// Mealy Action
-				Coffee_Stock = 10;
-				Mokka_Stock = 10;
-				Choco_Stock = 10;
-				Dishwater_Stock = 10;
-				WriteToFile();
+				Restock();
 				puts("Restocked!");
 				break;
 			case E_AddChange100:
@@ -194,6 +193,10 @@ state_t event_handler(event_t event) {
 				// Destination State
 				next_state = S_Initialisation;
 				break;
+			case E_Shutdown:
+				// Mealy Action
+				WriteToFile();
+				exit(0);
 			}
 			break;
 		}
@@ -212,8 +215,10 @@ state_t event_handler(event_t event) {
 			event = event;
 			break;
 
-		case S_Wait_For_Admin_Selection:
+		case S_Admin_Mode:
 			// Moore Action
+			system("@cls||clear");
+			puts("Welcome to the admin mode");
 			event = AdminModeSelect();
 			// Event Generation/Preparation
 			event = event;
@@ -355,7 +360,7 @@ event_t Selection() {
 		{
 		case 1:
 			if (Coffee_Stock > 0)
-				return E_Coffe;
+				return E_Coffee;
 			else
 				return E_OutOfStock;
 			break;
@@ -377,12 +382,12 @@ event_t Selection() {
 			else
 				return E_OutOfStock;
 			break;
-
 		case 1234:
 			return E_AdminMode;
 			break;
 		default:
 			puts("Wrong Selection");
+			break;
 		}
 
 	}
@@ -392,27 +397,37 @@ event_t Selection() {
 event_t AdminModeSelect() {
 	int sel;
 
-	puts("\nSelect your option:");
-	puts("1-- Refill all");
-	puts("2-- Empty change");
-	puts("3-- Add 100 cents to change");
-	puts("4-- Exit");
+	while (1)
+	{
+		puts("\nSelect your option:");
+		puts("1-- Refill all");
+		puts("2-- Empty change");
+		puts("3-- Add 100 cents to change");
+		puts("4-- Exit admin mode");
+		puts("5-- Shutdown");
 
-	scanf("%d", &sel);
-	getchar();
-	switch (sel) {
-	case 1:
-		return E_Restock;
-		break;
-	case 2:
-		return E_EmptyChange;
-		break;
-	case 3:
-		return E_AddChange100;
-		break;
-	case 4:
-		return E_ExitAdmin;
-		break;
+		scanf("%d", &sel);
+		getchar();
+		switch (sel) {
+		case 1:
+			return E_Restock;
+			break;
+		case 2:
+			return E_EmptyChange;
+			break;
+		case 3:
+			return E_AddChange100;
+			break;
+		case 4:
+			return E_ExitAdmin;
+			break;
+		case 5:
+			return E_Shutdown;
+			break;
+		default:
+			puts("Wrong Selection");
+			break;
+		}
 	}
 }
 
@@ -428,4 +443,13 @@ void WriteToFile() {
 void ReadFromFIle() {
 	f = fopen("Stock.stock", "r");
 	fscanf(f, "%d\n%d\n%d\n%d\n%d", &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock, &Change_Stock);
+}
+
+
+void Restock() {
+	Coffee_Stock = 10;
+	Mokka_Stock = 10;
+	Choco_Stock = 10;
+	Dishwater_Stock = 10;
+	WriteToFile();
 }
