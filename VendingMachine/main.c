@@ -1,4 +1,4 @@
-//*************************************** Declarations & Prototypes
+/*===============| Declarations & Prototypes |===============*/
 #define Coffee_Price 125
 #define Mokka_Price 150
 #define Choco_Price 100
@@ -16,10 +16,11 @@ int Dishwater_Stock;
 
 int Change_Stock;
 
-// your events
-typedef enum { E_10C, E_20C, E_50C, E_100C, E_Not_Enough_Money, E_Enough_Money, E_Start, E_Continue, E_Coffe, E_Mokka, E_Choco, E_DishwasherWater, E_OutOfStock, E_AdminMode, E_Restock, E_EmptyChange, E_AddChange100, E_ExitAdmin}
+/*==================| events |==================*/
+typedef enum {	E_10C, E_20C, E_50C, E_100C, E_Not_Enough_Money, E_Enough_Money, E_Start, E_Continue, E_Coffe, E_Mokka, 
+				E_Choco, E_DishwasherWater, E_OutOfStock, E_AdminMode, E_Restock, E_EmptyChange, E_AddChange100, E_ExitAdmin}
 event_t;
-//your states
+/*==================| states |==================*/
 typedef enum { S_Idle, S_Initialisation, S_Wait_For_Selection, S_Wait_For_Money, S_Amount_Check, S_Admin_Mode, S_Wait_For_Admin_Selection
 } 
 state_t;
@@ -51,7 +52,7 @@ int main()
 	return 0;
 }
 
-/*================| functions |================*/
+/*================| functions. |================*/
 
 state_t event_handler(event_t event) {
 	static state_t state = S_Idle;
@@ -196,7 +197,7 @@ state_t event_handler(event_t event) {
 			}
 			break;
 		}
-		/*===============| Destination States  |===============*/
+		/*=========| Destination States |=========*/
 		switch (next_state) {
 		case S_Initialisation:
 			// Moore Action
@@ -238,13 +239,13 @@ state_t event_handler(event_t event) {
 }
 
 
-// Initialization
+/*===============| Initialization |===============*/
 void initialize(int *money) {
 	*money = 0;
 	ReadFromFIle();
 }
 
-// Coffee dispensing Logic
+/*==========| Coffee dispensing Logic. |==========*/
 void dispense_coffee(const int money) {
 	printf("\n Enough Money!(%d) Thanks \n", money);
 	printf("\n Your Change:%d", money - Price);
@@ -271,7 +272,7 @@ void dispense_coffee(const int money) {
 	system("@cls||clear");
 }
 
-// Money Inserted Logic
+/*==============| Money Inserted Logic. |==============*/
 void add_10(int *money) {
 	*money += 10;
 	Change_Stock += 10;
@@ -296,13 +297,13 @@ void add_100(int *money) {
 	WriteToFile();
 }
 
-// Amount Check Event
+/*===============| Amount Check Event |===============*/
 event_t check_amount(const int money) {
 	return (money < Price) ? E_Not_Enough_Money : E_Enough_Money;
 }
 
-// Coin Selection interface
-event_t coin_insertion() {
+/*============| Coin Selection interface |============*/
+event_t coin_insertion() { 
 	int sel;
 	while (1)
 	{
@@ -336,7 +337,7 @@ event_t coin_insertion() {
 	}
 }
 
-// Main selection interface
+/*============| Main selection interface |============*/
 event_t Selection() {
 	int sel;
 	while (1)
@@ -387,7 +388,7 @@ event_t Selection() {
 	}
 }
 
-//Admin mode selection interface
+/*===========| Admin mode selection interface |===========*/
 event_t AdminModeSelect() {
 	int sel;
 
@@ -415,7 +416,7 @@ event_t AdminModeSelect() {
 	}
 }
 
-// Serialization
+/*===================| Serialization |===================*/
 
 void WriteToFile() {
 	// INITIALIZE
