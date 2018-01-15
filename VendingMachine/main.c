@@ -9,6 +9,8 @@
 #include <string.h>
 #include <conio.h>
 
+#include "HAL.h"
+
 FILE *f;
 int Coffee_Stock;
 int Mokka_Stock;
@@ -31,7 +33,6 @@ state_t;
 
 state_t event_handler(event_t event);
 void initialize(int *money);
-void dispense_coffee(const int money);
 void add_10(int *money);
 void add_20(int *money);
 void add_50(int *money);
@@ -160,7 +161,8 @@ state_t event_handler(event_t event) {
 
 			case E_Enough_Money:
 				// Mealy Action
-				dispense_coffee(money);
+				dispense_coffee(money, Price, drinkName, &Change_Stock, &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock);
+				WriteToFile();
 				// Destination State
 				next_state = S_Initialisation;
 				break;
@@ -249,33 +251,6 @@ state_t event_handler(event_t event) {
 void initialize(int *money) {
 	*money = 0;
 	ReadFromFIle();
-}
-
-/*==========| Coffee dispensing Logic. |==========*/
-void dispense_coffee(const int money) {
-	printf("\n Enough Money!(%d) Thanks \n", money);
-	printf("\n Your Change:%d", money - Price);
-	printf("\n Take your %s!\n\n\n", drinkName);
-
-	Change_Stock -= money - Price;
-
-	if (!strcmp( drinkName, "Coffee")) {
-		Coffee_Stock--;
-	}
-	else if (!strcmp(drinkName, "Mokka")) {
-		Mokka_Stock--;
-	}
-	else if (!strcmp(drinkName, "Choco")) {
-		Choco_Stock--;
-	}
-	else if (!strcmp(drinkName, "DishwasherWater")) {
-		Dishwater_Stock--;
-	}
-	WriteToFile();
-	
-	printf("Press any button to continue");
-	scanf("%c");
-	system("@cls||clear");
 }
 
 /*==============| Money Inserted Logic. |==============*/
