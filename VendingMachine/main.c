@@ -4,6 +4,8 @@
 #define Choco_Price 100
 #define Dishwater_Price 500
 
+#define ADMIN_CODE 1234
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -358,7 +360,7 @@ event_t Selection() {
 			else
 				return E_OutOfStock;
 			break;
-		case 1234:
+		case ADMIN_CODE:
 			return E_AdminMode;
 			break;
 		default:
