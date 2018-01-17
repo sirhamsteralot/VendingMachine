@@ -4,8 +4,6 @@
 #define Choco_Price 100
 #define Dishwater_Price 500
 
-#define ADMIN_CODE 1234
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +16,8 @@ int Coffee_Stock;
 int Mokka_Stock;
 int Choco_Stock;
 int Dishwater_Stock;
+
+int current_Password = 1234;
 
 int Change_Stock;
 
@@ -325,11 +325,12 @@ event_t Selection() {
 	int sel;
 	while (1)
 	{
-		puts("Select your drink");
+		puts("Select your option");
 		puts("1-- Coffee");
 		puts("2-- Mokka");
 		puts("3-- Choco");
 		puts("4-- DishwasherWater");
+		puts("5-- Administrator mode");
 
 		scanf("%d", &sel);
 		getchar();
@@ -360,14 +361,21 @@ event_t Selection() {
 			else
 				return E_OutOfStock;
 			break;
-		case ADMIN_CODE:
-			return E_AdminMode;
+		case 5:
+			puts("Please enter the administrator password");
+			int input;
+			scanf("%d", &input);
+
+			if (input == current_Password)
+				return E_AdminMode;
+			else
+				puts("Incorrect password");
+
 			break;
 		default:
 			puts("Wrong Selection");
 			break;
 		}
-
 	}
 }
 
@@ -381,8 +389,9 @@ event_t AdminModeSelect() {
 		puts("1-- Refill all");
 		puts("2-- Empty change");
 		puts("3-- Add 100 cents to change");
-		puts("4-- Exit admin mode");
-		puts("5-- Shutdown");
+		puts("4-- Change admin password");
+		puts("5-- Exit admin mode");
+		puts("6-- Shutdown");
 
 		scanf("%d", &sel);
 		getchar();
@@ -397,9 +406,14 @@ event_t AdminModeSelect() {
 			return E_AddChange100;
 			break;
 		case 4:
-			return E_ExitAdmin;
+			puts("Please insert new password (must be a number):");
+			scanf("%d", &current_Password);
+			WriteToFile();
 			break;
 		case 5:
+			return E_ExitAdmin;
+			break;
+		case 6:
 			return E_Shutdown;
 			break;
 		default:
@@ -414,15 +428,14 @@ event_t AdminModeSelect() {
 void WriteToFile() {
 	// INITIALIZE
 	f = fopen("Stock.stock", "w+");
-	fprintf(f, "%d\n%d\n%d\n%d\n%d", Coffee_Stock, Mokka_Stock, Choco_Stock, Dishwater_Stock, Change_Stock);
+	fprintf(f, "%d\n%d\n%d\n%d\n%d\n%d", Coffee_Stock, Mokka_Stock, Choco_Stock, Dishwater_Stock, Change_Stock, current_Password);
 	fclose(f);
 }
 
 void ReadFromFIle() {
 	f = fopen("Stock.stock", "r");
-	fscanf(f, "%d\n%d\n%d\n%d\n%d", &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock, &Change_Stock);
+	fscanf(f, "%d\n%d\n%d\n%d\n%d\n%d", &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock, &Change_Stock, &current_Password);
 }
-
 
 void Restock() {
 	Coffee_Stock = 10;
