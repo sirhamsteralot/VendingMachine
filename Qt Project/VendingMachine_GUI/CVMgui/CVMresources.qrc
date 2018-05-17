@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/icons">
         <file>Cola.ico</file>
+        <file>50cent.ico</file>
+        <file>420.ico</file>
     </qresource>
 </RCC>

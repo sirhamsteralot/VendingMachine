@@ -49,6 +49,12 @@ event_e StateMachine::statemachine(event_e eventIn) {
       case E_IN50C:
          nextState = S_50C;
          break;
+      case E_IN100C:
+         nextState = S_100C;
+         break;
+      case E_IN420C:
+         nextState = S_420C;
+         break;
       default:
          pDialog->setLogger("S_WAIT_FOR_COINS System ERROR: Unknown event");
       }
@@ -120,6 +126,40 @@ event_e StateMachine::statemachine(event_e eventIn) {
          break;
       default:
          pDialog->setLogger("S_50C System ERROR: Unknown event");
+         break;
+      }
+      break;
+
+   case S_100C:
+      eventIn = checkCents(100);
+      switch(eventIn) {
+      case E_MONEY_ENOUGH:
+         nextState = S_COKE;
+         eventOut = E_SEQ;
+         break;
+      case E_MONEY_NOTENOUGH:
+         nextState = S_WAIT_FOR_COINS;
+         eventOut = E_NO;
+         break;
+      default:
+         pDialog->setLogger("S_100C System ERROR: Unknown event");
+         break;
+      }
+      break;
+
+   case S_420C:
+      eventIn = checkCents(420);
+      switch(eventIn) {
+      case E_MONEY_ENOUGH:
+         nextState = S_COKE;
+         eventOut = E_SEQ;
+         break;
+      case E_MONEY_NOTENOUGH:
+         nextState = S_WAIT_FOR_COINS;
+         eventOut = E_NO;
+         break;
+      default:
+         pDialog->setLogger("S_420C System ERROR: Unknown event");
          break;
       }
       break;

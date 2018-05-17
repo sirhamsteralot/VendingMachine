@@ -69,6 +69,9 @@ MainWindow::MainWindow()
    setLayout(mainLayout);
    setWindowTitle(tr(APPNAME_VERSION));
    pStateMachine->handleEvent(E_INIT);
+
+   QFont font("Comic Sans MS");
+   this->setFont(font);
 }
 
 void MainWindow::enableCentButtons(bool enable) {
@@ -116,8 +119,18 @@ void MainWindow::createHorizontalGroupBoxes()
    connect(buttons[2], SIGNAL(released()), this, SLOT(coin20C()));
 
    buttons[3] = new QPushButton(tr("50C"));
+   buttons[3]->setIcon(QIcon(":/icons/50cent.ico"));
    layout1->addWidget(buttons[3]);
    connect(buttons[3], SIGNAL(released()), this, SLOT(coin50C()));
+
+   buttons[4] = new QPushButton(tr("100C"));
+   layout1->addWidget(buttons[4]);
+   connect(buttons[4], SIGNAL(released()), this, SLOT(coin100C()));
+
+   buttons[5] = new QPushButton(tr("420C"));
+   buttons[5]->setIcon(QIcon(":/icons/420.ico"));
+   layout1->addWidget(buttons[5]);
+   connect(buttons[5], SIGNAL(released()), this, SLOT(coin420C()));
 
    enableCentButtons(false);
    horizontalGroupBox1->setLayout(layout1);
@@ -153,6 +166,11 @@ void MainWindow::createGridGroupBox()
    layout->setColumnStretch(1, 10);
    layout->setColumnStretch(2, 20);
    gridGroupBox->setLayout(layout);
+
+   for (int i = 0; i < NumButtons; i++) {
+       buttons[i]->setStyleSheet("background-color:red;");
+   }
+
 }
 
 //----------------------------------------------------------- GUI event handlers
@@ -174,4 +192,14 @@ void MainWindow::coin20C()
 void MainWindow::coin50C()
 {
    pStateMachine->handleEvent(E_IN50C);
+}
+
+void MainWindow::coin100C()
+{
+   pStateMachine->handleEvent(E_IN100C);
+}
+
+void MainWindow::coin420C()
+{
+   pStateMachine->handleEvent(E_IN420C);
 }
