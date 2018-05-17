@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>Cola.ico</file>
+    </qresource>
+</RCC>
