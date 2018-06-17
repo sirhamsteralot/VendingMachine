@@ -4,6 +4,9 @@
 #include <QPushButton>
 #include <iostream>
 #include <sstream>
+#include <Qfile>
+#include <QTextStream>
+#include "hal.h"
 
 void StateMachine::handleEvent(event_e eventIn) {
    // Handle sequential states.
@@ -21,21 +24,125 @@ event_e StateMachine::statemachine(event_e eventIn) {
    switch(currentState) {
    case S_START:
       pDialog->setLogger("-state: Start");
+      Log("-state: Start");
       nextState = S_INIT;
       eventOut = E_SEQ;
       break;
 
    case S_INIT:
       pDialog->setLogger("-state: Init");
+      Log("-state: Init");
       money = 0.0;
-      pDialog->setDisplay("Enter your coins please");
+      selectedDrink = "";
+
+      ReadFromFIle();
+
+      pDialog->setDisplay("Select your drink please");
       pDialog->enableCentButtons(true);
-      nextState = S_WAIT_FOR_COINS;
+      nextState = S_WAIT_FOR_DRINKS;
       eventOut = E_NO;  // Go waiting for external events: event driven
       break;
 
+   case S_WAIT_FOR_DRINKS:
+      pDialog->setLogger("-state: Wait for drinks");
+      Log("-state: Wait for drinks");
+      switch(eventIn) {
+      case E_COFFEE:
+         nextState = S_COFFEE;
+         break;
+      case E_MOKKA:
+         nextState = S_MOKKA;
+         break;
+      case E_CHOCO:
+         nextState = S_CHOCO;
+         break;
+      case E_DISHWASHERWATER:
+         nextState = S_DISHWASHERWATER;
+         break;
+      default:
+         pDialog->setLogger("S_WAIT_FOR_DRINKS System ERROR: Unknown drink");
+         Log("S_WAIT_FOR_DRINKS System ERROR: Unknown drink");
+      }
+      eventOut = E_SEQ;
+      break;
+
+   case S_COFFEE:
+       pDialog->setLogger("-state: Coffee");
+       Log("-state: Coffee");
+
+       if (Coffee_Stock < 1) {
+           pDialog->setLogger("-state: NotEnoughCoffee");
+           nextState = S_WAIT_FOR_DRINKS;
+           eventOut = E_NO;
+           break;
+       }
+
+       selectedDrink = "Coffee";
+       priceCoke = 100;
+       pDialog->setDisplay("Enter your coins please");
+       nextState = S_WAIT_FOR_COINS;
+       eventOut = E_NO;
+   break;
+
+   case S_MOKKA:
+       pDialog->setLogger("-state: Mokka");
+       Log("-state: Mokka");
+
+       if (Mokka_Stock < 1) {
+           pDialog->setLogger("-state: NotEnoughMokka");
+           nextState = S_WAIT_FOR_DRINKS;
+           eventOut = E_NO;
+           break;
+       }
+
+       pDialog->setDisplay("Enter your coins please");
+       selectedDrink = "Mokka";
+       priceCoke = 220;
+
+       nextState = S_WAIT_FOR_COINS;
+       eventOut = E_NO;
+   break;
+
+   case S_CHOCO:
+       pDialog->setLogger("-state: Choco");
+       Log("-state: Choco");
+
+       if (Choco_Stock < 1) {
+           pDialog->setLogger("-state: NotEnoughChoco");
+           nextState = S_WAIT_FOR_DRINKS;
+           eventOut = E_NO;
+           break;
+       }
+
+       pDialog->setDisplay("Enter your coins please");
+       selectedDrink = "Choco";
+       priceCoke = 120;
+
+       nextState = S_WAIT_FOR_COINS;
+       eventOut = E_NO;
+   break;
+
+   case S_DISHWASHERWATER:
+       pDialog->setLogger("-state: Dishwasherwater");
+       Log("-state: Dishwasherwater");
+
+       if (Dishwater_Stock < 1) {
+           pDialog->setLogger("-state: NotEnoughDishwater");
+           nextState = S_WAIT_FOR_DRINKS;
+           eventOut = E_NO;
+           break;
+       }
+       pDialog->setDisplay("Enter your coins please");
+       selectedDrink = "Dishwasherwater";
+       priceCoke = 420;
+
+       nextState = S_WAIT_FOR_COINS;
+       eventOut = E_NO;
+   break;
+
    case S_WAIT_FOR_COINS:
       pDialog->setLogger("-state: Wait for coins");
+      Log("-state: Wait for coins");
       switch(eventIn) {
       case E_IN5C:
          nextState = S_5C;
@@ -52,20 +159,26 @@ event_e StateMachine::statemachine(event_e eventIn) {
       case E_IN100C:
          nextState = S_100C;
          break;
-      case E_IN420C:
-         nextState = S_420C;
-         break;
+      case E_RETURN:
+          nextState = S_RETURN;
       default:
-         pDialog->setLogger("S_WAIT_FOR_COINS System ERROR: Unknown event");
+         pDialog->setLogger("S_WAIT_FOR_COINS System ERROR: Unknown coin");
+         Log("S_WAIT_FOR_COINS System ERROR: Unknown coin");
+         nextState = S_UNKNOWN;
       }
       eventOut = E_SEQ;
       break;
+
+   case S_UNKNOWN :
+       nextState = S_WAIT_FOR_COINS;
+       eventOut = E_NO;
+       break;
 
    case S_5C:
       pDialog->setLogger("-state: 5C");
       switch(checkCents(5)) {
       case E_MONEY_ENOUGH:
-         nextState = S_COKE;
+         nextState = S_DRINKOUT;
          eventOut = E_SEQ;
          break;
       case E_MONEY_NOTENOUGH:
@@ -82,7 +195,7 @@ event_e StateMachine::statemachine(event_e eventIn) {
       pDialog->setLogger("-state: 10C");
       switch(checkCents(10)) {
       case E_MONEY_ENOUGH:
-         nextState = S_COKE;
+         nextState = S_DRINKOUT;
          eventOut = E_SEQ;
          break;
       case E_MONEY_NOTENOUGH:
@@ -100,7 +213,7 @@ event_e StateMachine::statemachine(event_e eventIn) {
       eventIn = checkCents(20);
       switch(eventIn) {
       case E_MONEY_ENOUGH:
-         nextState = S_COKE;
+         nextState = S_DRINKOUT;
          eventOut = E_SEQ;
          break;
       case E_MONEY_NOTENOUGH:
@@ -117,7 +230,7 @@ event_e StateMachine::statemachine(event_e eventIn) {
       eventIn = checkCents(50);
       switch(eventIn) {
       case E_MONEY_ENOUGH:
-         nextState = S_COKE;
+         nextState = S_DRINKOUT;
          eventOut = E_SEQ;
          break;
       case E_MONEY_NOTENOUGH:
@@ -134,7 +247,7 @@ event_e StateMachine::statemachine(event_e eventIn) {
       eventIn = checkCents(100);
       switch(eventIn) {
       case E_MONEY_ENOUGH:
-         nextState = S_COKE;
+         nextState = S_DRINKOUT;
          eventOut = E_SEQ;
          break;
       case E_MONEY_NOTENOUGH:
@@ -147,25 +260,24 @@ event_e StateMachine::statemachine(event_e eventIn) {
       }
       break;
 
-   case S_420C:
-      eventIn = checkCents(420);
-      switch(eventIn) {
-      case E_MONEY_ENOUGH:
-         nextState = S_COKE;
-         eventOut = E_SEQ;
-         break;
-      case E_MONEY_NOTENOUGH:
-         nextState = S_WAIT_FOR_COINS;
-         eventOut = E_NO;
-         break;
-      default:
-         pDialog->setLogger("S_420C System ERROR: Unknown event");
-         break;
-      }
-      break;
+   case S_RETURN:
+   {
+       pDialog->setLogger("-state: S_RETURN, returned money");
 
-   case S_COKE:
-      pDialog->setLogger("-state: COKE, Coke is delivered");
+       std::stringstream displayBuffer1;
+       displayBuffer1 << " = " << money << " cents";
+       pDialog->setLogger("-state: CHANGE, change "
+                          + QString(displayBuffer1.str().c_str()));
+
+       nextState = S_INIT;
+       eventOut = E_SEQ;
+   }
+   break;
+
+   case S_DRINKOUT:
+      pDialog->setLogger("-state: DRINKOUT, drink is delivered");
+
+      WriteToFile();
       nextState = S_CHANGE;
       eventOut = E_SEQ;
       break;

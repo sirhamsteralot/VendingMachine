@@ -19,7 +19,8 @@ SOURCES += \
 HEADERS += \
     MainWindow.h \
     StateMachine.h \
-    AppInfo.h
+    AppInfo.h \
+    hal.h
 
 FORMS +=
 

@@ -71,9 +71,10 @@ private:
    void createGridGroupBox();
    void createFormGroupBox();
 
-   enum { NumGridRows = 3, NumButtons = 6 };
+   enum { NumGridRows = 3, NumButtons = 6 , NumDrinks = 4};
 
    QMenuBar *menuBar;
+   QGroupBox *horizontalGroupBox0;
    QGroupBox *horizontalGroupBox1;
    QGroupBox *horizontalGroupBox2;
    QGroupBox *gridGroupBox;
@@ -82,6 +83,7 @@ private:
    QTextEdit *logDisplay;
    //QLabel *labels[NumGridRows];
    QPushButton *buttons[NumButtons];
+   QPushButton *drinkbuttons[NumDrinks];
    QDialogButtonBox *buttonBox;
 
    QMenu *fileMenu;
@@ -98,6 +100,11 @@ private slots:
    void coin50C();
    void coin100C();
    void coin420C();
+
+   void drinkCoffee();
+   void drinkMokka();
+   void drinkChoco();
+   void drinkDishwasherwater();
 };
 
 #endif // MAINWINDOW_H

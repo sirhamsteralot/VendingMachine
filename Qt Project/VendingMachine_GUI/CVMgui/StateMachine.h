@@ -7,11 +7,13 @@ typedef enum {NOERR} error_e;
 
 typedef enum {S_NO, S_START, S_INIT, S_WAIT_FOR_COINS,
               S_5C, S_10C, S_20C, S_50C, S_100C, S_420C,
-              S_COKE, S_CHANGE}
+              S_MOKKA, S_COFFEE, S_DISHWASHERWATER, S_CHOCO,
+              S_DRINKOUT,
+              S_CHANGE, S_RETURN, S_UNKNOWN, S_WAIT_FOR_DRINKS}
              state_e;
-typedef enum {E_NO, E_SEQ, E_INIT, E_WAITFORCOINS,
+typedef enum {E_NO, E_SEQ, E_INIT, E_WAITFORCOINS, E_RETURN,
               E_IN5C, E_IN10C, E_IN20C, E_IN50C, E_IN100C, E_IN420C,
-              E_COKE,
+              E_MOKKA, E_COFFEE, E_DISHWASHERWATER, E_CHOCO,
               E_MONEY_NOTENOUGH, E_MONEY_ENOUGH,
               E_COKE_DELIVERED, E_CHANGE_DELIVERED}
              event_e;
@@ -32,7 +34,7 @@ private:
    MainWindow *pDialog;
    state_e currentState;
    int money;
-   const int priceCoke;
+   int priceCoke;
    event_e statemachine(event_e eventIn);
    event_e checkCents(const int cents);
 };

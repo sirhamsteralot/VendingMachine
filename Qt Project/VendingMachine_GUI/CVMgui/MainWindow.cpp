@@ -61,6 +61,7 @@ MainWindow::MainWindow()
 
    QVBoxLayout *mainLayout = new QVBoxLayout;
    mainLayout->setMenuBar(menuBar);
+   mainLayout->addWidget(horizontalGroupBox0);
    mainLayout->addWidget(horizontalGroupBox1);
    mainLayout->addWidget(gridGroupBox);
    mainLayout->addWidget(horizontalGroupBox2);
@@ -102,6 +103,28 @@ void MainWindow::createMenu()
 
 void MainWindow::createHorizontalGroupBoxes()
 {
+    // HorizontalGroupBox 0 -----------------------------------------------------
+    horizontalGroupBox0 = new QGroupBox(tr("Drink selection"));
+    QHBoxLayout *layout0 = new QHBoxLayout;
+
+    drinkbuttons[0] = new QPushButton(tr("Coffee"));
+    layout0->addWidget(drinkbuttons[0]);
+    connect(drinkbuttons[0], SIGNAL(released()), this, SLOT(drinkCoffee()));
+
+    drinkbuttons[1] = new QPushButton(tr("Mokka"));
+    layout0->addWidget(drinkbuttons[1]);
+    connect(drinkbuttons[1], SIGNAL(released()), this, SLOT(drinkMokka()));
+
+    drinkbuttons[2] = new QPushButton(tr("Choco"));
+    layout0->addWidget(drinkbuttons[2]);
+    connect(drinkbuttons[2], SIGNAL(released()), this, SLOT(drinkChoco()));
+
+    drinkbuttons[3] = new QPushButton(tr("Dishwasherwater"));
+    layout0->addWidget(drinkbuttons[3]);
+    connect(drinkbuttons[3], SIGNAL(released()), this, SLOT(drinkDishwasherwater()));
+
+   horizontalGroupBox0->setLayout(layout0);
+
    // HorizontalGroupBox 1 -----------------------------------------------------
    horizontalGroupBox1 = new QGroupBox(tr("Input cents"));
    QHBoxLayout *layout1 = new QHBoxLayout;
@@ -202,4 +225,20 @@ void MainWindow::coin100C()
 void MainWindow::coin420C()
 {
    pStateMachine->handleEvent(E_IN420C);
+}
+
+void MainWindow::drinkCoffee() {
+    pStateMachine->handleEvent(E_COFFEE);
+}
+
+void MainWindow::drinkMokka() {
+    pStateMachine->handleEvent(E_MOKKA);
+}
+
+void MainWindow::drinkChoco() {
+    pStateMachine->handleEvent(E_CHOCO);
+}
+
+void MainWindow::drinkDishwasherwater() {
+    pStateMachine->handleEvent(E_DISHWASHERWATER);
 }
