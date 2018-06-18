@@ -1,3 +1,11 @@
 
 -state: Start
 -state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon

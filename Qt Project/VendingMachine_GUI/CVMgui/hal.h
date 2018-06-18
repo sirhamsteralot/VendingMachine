@@ -12,7 +12,9 @@ QString selectedDrink;
 
 void ReadFromFIle() {
     FILE *f = fopen("Stock.stock", "r");
-    fscanf(f, "%d\n%d\n%d\n%d\n%d\n%d", &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock, &Change_Stock, &current_Password);
+
+    if (f)
+        fscanf(f, "%d\n%d\n%d\n%d\n%d\n%d", &Coffee_Stock, &Mokka_Stock, &Choco_Stock, &Dishwater_Stock, &Change_Stock, &current_Password);
 }
 
 void WriteToFile() {
