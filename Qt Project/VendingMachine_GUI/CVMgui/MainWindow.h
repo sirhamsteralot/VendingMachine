@@ -43,6 +43,7 @@
 
 #include "StateMachine.h"
 #include <QDialog>
+#include <QLineEdit>
 
 QT_BEGIN_NAMESPACE
 class QAction;
@@ -64,6 +65,9 @@ public:
    void enableCentButtons(bool enable);
    void setDisplay(const QString& text);
    void setLogger(const QString& text);
+   void enableAdminButtons(bool enable);
+
+   QLineEdit *password;
 
 private:
    void createMenu();
@@ -71,12 +75,13 @@ private:
    void createGridGroupBox();
    void createFormGroupBox();
 
-   enum { NumGridRows = 3, NumButtons = 6 , NumDrinks = 4};
+   enum { NumGridRows = 3, NumButtons = 6 , NumDrinks = 4, NumAdminButtons = 4, NumAdminLoginButtons = 1};
 
    QMenuBar *menuBar;
    QGroupBox *horizontalGroupBox0;
    QGroupBox *horizontalGroupBox1;
    QGroupBox *horizontalGroupBox2;
+   QGroupBox *horizontalGroupBox3;
    QGroupBox *gridGroupBox;
 
    QTextEdit *display;
@@ -84,6 +89,8 @@ private:
    //QLabel *labels[NumGridRows];
    QPushButton *buttons[NumButtons];
    QPushButton *drinkbuttons[NumDrinks];
+   QPushButton *adminbuttons[NumAdminButtons];
+   QPushButton *adminloginbuttons[NumAdminLoginButtons];
    QDialogButtonBox *buttonBox;
 
    QMenu *fileMenu;
@@ -105,6 +112,12 @@ private slots:
    void drinkMokka();
    void drinkChoco();
    void drinkDishwasherwater();
+
+   void adminRefill();
+   void adminAdd100();
+   void adminExit();
+   void adminEmptyChange();
+   void adminLogin();
 };
 
 #endif // MAINWINDOW_H

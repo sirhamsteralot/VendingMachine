@@ -36,7 +36,7 @@ void Log(QString data) {
     if ( file.open(QIODevice::ReadWrite| QIODevice::Append) )
     {
         QTextStream stream( &file );
-        stream << data << endl;
+        stream << endl << data;
     }
 }
 

@@ -42,6 +42,7 @@
 #include <QColor>
 #include <QLabel>
 #include <QPixmap>
+#include <QLineEdit>
 
 #include "AppInfo.h"
 #include "MainWindow.h"
@@ -65,6 +66,7 @@ MainWindow::MainWindow()
    mainLayout->addWidget(horizontalGroupBox1);
    mainLayout->addWidget(gridGroupBox);
    mainLayout->addWidget(horizontalGroupBox2);
+   mainLayout->addWidget(horizontalGroupBox3);
    mainLayout->addWidget(buttonBox);
 
    setLayout(mainLayout);
@@ -79,6 +81,25 @@ void MainWindow::enableCentButtons(bool enable) {
    for (int i = 0; i < NumButtons; i++) {
       buttons[i]->setEnabled(enable);
    }
+
+   for (int i = 0; i < NumDrinks; i++) {
+      drinkbuttons[i]->setEnabled(!enable);
+   }
+}
+
+void MainWindow::enableAdminButtons(bool enable) {
+    for (int i = 0; i < NumAdminButtons; i++) {
+       adminbuttons[i]->setEnabled(enable);
+       adminbuttons[i]->setHidden(!enable);
+    }
+
+    for (int i = 0; i < NumAdminLoginButtons; i++) {
+       adminloginbuttons[i]->setEnabled(!enable);
+       adminloginbuttons[i]->setHidden(enable);
+    }
+
+    password ->setEnabled(!enable);
+    password ->setHidden(enable);
 }
 
 void MainWindow::setDisplay(const QString &text) {
@@ -103,6 +124,8 @@ void MainWindow::createMenu()
 
 void MainWindow::createHorizontalGroupBoxes()
 {
+
+
     // HorizontalGroupBox 0 -----------------------------------------------------
     horizontalGroupBox0 = new QGroupBox(tr("Drink selection"));
     QHBoxLayout *layout0 = new QHBoxLayout;
@@ -166,6 +189,37 @@ void MainWindow::createHorizontalGroupBoxes()
    logDisplay->setReadOnly(true);
    layout2->addWidget(logDisplay);
    horizontalGroupBox2->setLayout(layout2);
+
+   // HorizontalGroupBox 3 -----------------------------------------------------
+   horizontalGroupBox3 = new QGroupBox(tr("Admin menu"));
+   QHBoxLayout *layout3 = new QHBoxLayout;
+
+   password = new QLineEdit;
+   password -> setEchoMode(QLineEdit::Password);
+   layout3->addWidget(password);
+
+   adminloginbuttons[0] = new QPushButton(tr("Login"));
+   layout3->addWidget(adminloginbuttons[0]);
+   connect(adminloginbuttons[0], SIGNAL(released()), this, SLOT(adminLogin()));
+
+   adminbuttons[0] = new QPushButton(tr("Refill"));
+   layout3->addWidget(adminbuttons[0]);
+   connect(adminbuttons[0], SIGNAL(released()), this, SLOT(adminRefill()));
+
+   adminbuttons[1] = new QPushButton(tr("Add 100"));
+   layout3->addWidget(adminbuttons[1]);
+   connect(adminbuttons[1], SIGNAL(released()), this, SLOT(adminAdd100()));
+
+   adminbuttons[2] = new QPushButton(tr("Empty change"));
+   layout3->addWidget(adminbuttons[2]);
+   connect(adminbuttons[2], SIGNAL(released()), this, SLOT(adminEmptyChange()));
+
+   adminbuttons[3] = new QPushButton(tr("Exit"));
+   layout3->addWidget(adminbuttons[3]);
+   connect(adminbuttons[3], SIGNAL(released()), this, SLOT(adminExit()));
+
+   enableAdminButtons(false);
+   horizontalGroupBox3->setLayout(layout3);
 }
 
 void MainWindow::createGridGroupBox()
@@ -173,7 +227,7 @@ void MainWindow::createGridGroupBox()
    gridGroupBox = new QGroupBox(tr("Display"));
    QGridLayout *layout = new QGridLayout;
 
-   QPixmap *image = new QPixmap(":/icons/Cola.ico");  // in CVMresources.qrc
+   QPixmap *image = new QPixmap(":/icons/Coffee.ico");  // in CVMresources.qrc
    QLabel *label = new QLabel;
    label->setPixmap(*image);
    layout->addWidget(label, 0, 0);
@@ -241,4 +295,24 @@ void MainWindow::drinkChoco() {
 
 void MainWindow::drinkDishwasherwater() {
     pStateMachine->handleEvent(E_DISHWASHERWATER);
+}
+
+void MainWindow::adminRefill() {
+    pStateMachine->handleEvent(E_REFILL);
+}
+
+void MainWindow::adminAdd100(){
+    pStateMachine->handleEvent(E_ADD100);
+}
+
+void MainWindow::adminExit(){
+    pStateMachine->handleEvent(E_EXIT);
+}
+
+void MainWindow::adminEmptyChange(){
+    pStateMachine->handleEvent(E_EMPTYCHANGE);
+}
+
+void MainWindow::adminLogin() {
+    pStateMachine->handleEvent(E_ADMINLOGIN);
 }

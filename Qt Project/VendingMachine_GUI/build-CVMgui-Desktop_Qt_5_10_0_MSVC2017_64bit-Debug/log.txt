@@ -1,0 +1,322 @@
+Statemachine System ERROR: Unknown state
+Statemachine System ERROR: Unknown state
+-state: Start
+-state: Init
+-state: Wait for drinks
+S_WAIT_FOR_DRINKS System ERROR: Unknown drink
+Statemachine System ERROR: Unknown state
+Statemachine System ERROR: Unknown state
+Statemachine System ERROR: Unknown state
+-state: Start
+-state: Init
+-state: Wait for drinks
+S_WAIT_FOR_DRINKS System ERROR: Unknown drink
+Statemachine System ERROR: Unknown state
+Statemachine System ERROR: Unknown state
+
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Mokka
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Dishwasherwater
+-state: Wait for coins
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Dishwasherwater
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: 20C
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 0 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 80 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Dishwasherwater
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: Wait for coins
+-state: DRINKOUT, drink is delivered
+-state: CHANGE, change  = 30 cents
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Choco
+-state: Start
+-state: Init
+-state: Wait for drinks
+S_WAIT_FOR_DRINKS System ERROR: Unknown drink
+Statemachine System ERROR: Unknown state
+Statemachine System ERROR: Unknown state
+Statemachine System ERROR: Unknown state
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+S_WAIT_FOR_DRINKS System ERROR: Unknown drink
+Statemachine System ERROR: Unknown state
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+Statemachine System ERROR: Unknown state
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Dishwasherwater
+-state: Wait for coins
+S_WAIT_FOR_COINS System ERROR: Unknown coin
+-state: Wait for coins
+-state: Adminlogon
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: Init
