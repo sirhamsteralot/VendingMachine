@@ -165,7 +165,6 @@ void MainWindow::createHorizontalGroupBoxes()
    connect(buttons[2], SIGNAL(released()), this, SLOT(coin20C()));
 
    buttons[3] = new QPushButton(tr("50C"));
-   buttons[3]->setIcon(QIcon(":/icons/50cent.ico"));
    layout1->addWidget(buttons[3]);
    connect(buttons[3], SIGNAL(released()), this, SLOT(coin50C()));
 
@@ -174,7 +173,6 @@ void MainWindow::createHorizontalGroupBoxes()
    connect(buttons[4], SIGNAL(released()), this, SLOT(coin100C()));
 
    buttons[5] = new QPushButton(tr("420C"));
-   buttons[5]->setIcon(QIcon(":/icons/420.ico"));
    layout1->addWidget(buttons[5]);
    connect(buttons[5], SIGNAL(released()), this, SLOT(coin420C()));
 
