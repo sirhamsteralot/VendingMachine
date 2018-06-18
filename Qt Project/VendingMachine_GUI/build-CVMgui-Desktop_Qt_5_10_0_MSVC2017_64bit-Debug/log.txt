@@ -9,3 +9,7 @@
 -state: Init
 -state: Wait for drinks
 -state: Adminlogon
+-state: Start
+-state: Init
+-state: Start
+-state: Init
