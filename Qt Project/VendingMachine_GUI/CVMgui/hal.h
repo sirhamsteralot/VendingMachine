@@ -6,7 +6,7 @@ int Mokka_Stock;
 int Choco_Stock;
 int Dishwater_Stock;
 int Change_Stock;
-int current_Password;
+int current_Password = 1234;
 
 QString selectedDrink;
 

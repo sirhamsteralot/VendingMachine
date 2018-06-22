@@ -1,0 +1,97 @@
+-state: Start
+-state: Init
+
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Dishwasherwater
+-state: Wait for drinks
+-state: Choco
+-state: Wait for drinks
+-state: Mokka
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Wait for drinks
+-state: Dishwasherwater
+-state: Wait for drinks
+-state: Mokka
+-state: Wait for drinks
+-state: Coffee
+-state: Wait for drinks
+-state: Choco
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: Init
+-state: Start
+-state: Init
+-state: Wait for drinks
+-state: Adminlogon
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: adminmode
+-state: Init
